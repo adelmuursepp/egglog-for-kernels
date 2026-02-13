@@ -1,0 +1,66 @@
+======================================================================
+  GPU Kernel Fusion via Equality Saturation -- Test Results
+======================================================================
+
+  Saturation time: 193.2 ms
+
+--- Part A: Algebraic Rearrangement + Epilogue Fusion ---
+
+  [PASS] original == fused_gemm_div  (same e-class)
+  [PASS] Extracted optimal: fused_gemm_div(Op.input("X"), Op.input("Y"), Op.input("X").square().sum_reduce())
+  [PASS] 3 equivalent forms discovered:
+         1. gemm(Op.input("X"), Op.input("Y")).divide(Op.input("X").square().sum_reduce())
+         2. gemm(Op.input("X").divide(Op.input("X").square().sum_reduce()), Op.input("Y"))
+         3. fused_gemm_div(Op.input("X"), Op.input("Y"), Op.input("X").square().sum_reduce())
+
+--- Part B: Memory Region Tracking ---
+
+  Input X        : MemRegion.global_()
+  Input Y        : MemRegion.global_()
+  gemm(X,Y)      : MemRegion.register_file()
+  fused_gemm_div : MemRegion.register_file()
+  [PASS] Inputs in GMEM, outputs in registers
+  Transfer costs:  GMEM->SMEM=150  SMEM->REG=20  GMEM->REG=350  REG->REG=0
+  [PASS] Transfer costs set correctly
+
+--- Part C: Fusion Legality Constraints ---
+
+  fits_in_smem(X)              : 1
+  fits_in_smem(X.square())     : 1
+  fits_in_smem(X.square().sum) : 1
+  needs_reload(X)              : 1
+  needs_reload(Y)              : 1
+  [PASS] SMEM fitness propagated
+
+--- Part D: Multi-Metric Kernel Scoring ---
+
+  num_launches    :    1  (was 4 unfused)
+  regs_per_thread :  128
+  occupancy_pct   :  100%
+  mem_bw_pct      :   85%
+  [PASS] Metrics merged correctly (launches=1, regs=128)
+
+--- Part E: Warp Specialization Equivalence ---
+
+  [PASS] result_of(homo) == result_of(prodcon) == result_of(pingpong)
+  [PASS] Implementations in separate e-classes: True
+
+  +----------------------+--------+-----------+-----------+----------+-------+
+  | Warp Strategy        | Regs/T | Occupancy | Bandwidth | Launches | Score |
+  +----------------------+--------+-----------+-----------+----------+-------+
+  | Homogeneous          |     40 |      100% |       60% |        1 |   180 |
+  | Producer-Consumer    |     56 |       75% |       95% |        1 |   209 |
+  | Pingpong             |     48 |       80% |       80% |        1 |   192 |
+  +----------------------+--------+-----------+-----------+----------+-------+
+
+--- Part F: Optimal Schedule Selection ---
+
+  [PASS] Winner: Producer-Consumer  (score = 209)
+
+======================================================================
+  ALL TESTS PASSED
+======================================================================
+
+  Saturation : 193.2 ms
+  Tests      : 35.4 ms
+  Total      : 228.6 ms

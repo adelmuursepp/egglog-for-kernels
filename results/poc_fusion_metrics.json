@@ -1,0 +1,78 @@
+{
+  "part_a": {
+    "optimal_form": "fused_gemm_div(Op.input(\"X\"), Op.input(\"Y\"), Op.input(\"X\").square().sum_reduce())",
+    "num_equivalent_forms": 3,
+    "equivalence_proven": true
+  },
+  "part_b": {
+    "mem_location_X": "MemRegion.global_()",
+    "mem_location_Y": "MemRegion.global_()",
+    "mem_location_gemm": "MemRegion.register_file()",
+    "mem_location_fused": "MemRegion.register_file()",
+    "transfer_costs": {
+      "gmem_to_smem": "150",
+      "smem_to_reg": "20",
+      "gmem_to_reg": "350",
+      "reg_to_reg": "0"
+    }
+  },
+  "part_c": {
+    "fits_in_smem_X": "1",
+    "fits_in_smem_square": "1",
+    "fits_in_smem_sum": "1",
+    "needs_reload_X": "1",
+    "needs_reload_Y": "1"
+  },
+  "part_d": {
+    "num_launches": "1",
+    "regs_per_thread": "128",
+    "occupancy_pct": "100",
+    "mem_bw_pct": "85"
+  },
+  "part_e": {
+    "result_equivalence_proven": true,
+    "implementations_separate": true,
+    "warp_strategies": {
+      "Homogeneous": {
+        "regs_per_thread": "40",
+        "occupancy_pct": "100",
+        "mem_bw_pct": "60",
+        "num_launches": "1",
+        "composite_score": "180"
+      },
+      "Producer-Consumer": {
+        "regs_per_thread": "56",
+        "occupancy_pct": "75",
+        "mem_bw_pct": "95",
+        "num_launches": "1",
+        "composite_score": "209"
+      },
+      "Pingpong": {
+        "regs_per_thread": "48",
+        "occupancy_pct": "80",
+        "mem_bw_pct": "80",
+        "num_launches": "1",
+        "composite_score": "192"
+      }
+    }
+  },
+  "part_f": {
+    "winner": "Producer-Consumer",
+    "winning_score": 209
+  },
+  "timing": {
+    "saturation_ms": 193.15,
+    "tests_ms": 35.4,
+    "total_ms": 228.55
+  },
+  "hardware_target": {
+    "gpu": "NVIDIA H100",
+    "sm_arch": "SM90",
+    "smem_per_sm_kb": 228,
+    "reg_file_per_sm_kb": 256,
+    "hbm3_bandwidth_tb_s": 3.35,
+    "hbm3_capacity_gb": 80,
+    "max_threads_per_sm": 2048,
+    "regs_per_sm": 65536
+  }
+}
