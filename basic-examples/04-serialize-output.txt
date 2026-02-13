@@ -1,0 +1,249 @@
+1) Bare serialization
+{
+  "nodes": {
+    "function-0-__main___Num___add__": {
+      "op": "\u00b7 + \u00b7",
+      "children": [
+        "function-0-__main___Num___mul__",
+        "function-1-__main___Num___init__"
+      ],
+      "eclass": "__main__.Num-4",
+      "cost": 2.0,
+      "subsumed": false
+    },
+    "function-1-__main___Num___add__": {
+      "op": "\u00b7 + \u00b7",
+      "children": [
+        "function-0-__main___Num_var",
+        "function-0-__main___Num_var"
+      ],
+      "eclass": "__main__.Num-2",
+      "cost": 2.0,
+      "subsumed": false
+    },
+    "function-0-__main___Num___mul__": {
+      "op": "\u00b7 * \u00b7",
+      "children": [
+        "function-0-__main___Num_var",
+        "function-0-__main___Num___init__"
+      ],
+      "eclass": "__main__.Num-2",
+      "cost": 10.0,
+      "subsumed": false
+    },
+    "primitive-String-0": {
+      "op": "\"x\"",
+      "children": [],
+      "eclass": "String-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-__main___Num_var": {
+      "op": "Num.var",
+      "children": [
+        "primitive-String-0"
+      ],
+      "eclass": "__main__.Num-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-__main___Num___init__": {
+      "op": "Num",
+      "children": [
+        "primitive-i64-2"
+      ],
+      "eclass": "__main__.Num-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-__main___Num___init__": {
+      "op": "Num",
+      "children": [
+        "primitive-i64-1"
+      ],
+      "eclass": "__main__.Num-3",
+      "cost": 1.0,
+      "subsumed": false
+    }
+  },
+  "root_eclasses": [],
+  "class_data": {
+    "__main__.Num-4": {
+      "type": "__main__.Num",
+      "let": "expr"
+    },
+    "__main__.Num-2": {
+      "type": "__main__.Num"
+    },
+    "__main__.Num-3": {
+      "type": "__main__.Num"
+    },
+    "__main__.Num-0": {
+      "type": "__main__.Num"
+    },
+    "__main__.Num-1": {
+      "type": "__main__.Num"
+    },
+    "String-0": {
+      "type": "String"
+    },
+    "i64-2": {
+      "type": "i64"
+    },
+    "i64-1": {
+      "type": "i64"
+    }
+  }
+}
+
+2) Single root
+root_eclasses: ['__main__.Num-4']
+class_data: {'type': '__main__.Num', 'let': 'expr'}
+
+3) Serialization with extraction
+{
+  "egraph": {
+    "nodes": {
+      "function-0-__main___Num___add__": {
+        "op": "\u00b7 + \u00b7",
+        "children": [
+          "function-0-__main___Num___mul__",
+          "function-1-__main___Num___init__"
+        ],
+        "eclass": "__main__.Num-4",
+        "cost": 2.0,
+        "subsumed": false
+      },
+      "function-1-__main___Num___add__": {
+        "op": "\u00b7 + \u00b7",
+        "children": [
+          "function-0-__main___Num_var",
+          "function-0-__main___Num_var"
+        ],
+        "eclass": "__main__.Num-2",
+        "cost": 2.0,
+        "subsumed": false
+      },
+      "function-0-__main___Num___mul__": {
+        "op": "\u00b7 * \u00b7",
+        "children": [
+          "function-0-__main___Num_var",
+          "function-0-__main___Num___init__"
+        ],
+        "eclass": "__main__.Num-2",
+        "cost": 10.0,
+        "subsumed": false
+      },
+      "primitive-String-0": {
+        "op": "\"x\"",
+        "children": [],
+        "eclass": "String-0",
+        "cost": 1.0,
+        "subsumed": false
+      },
+      "function-0-__main___Num_var": {
+        "op": "Num.var",
+        "children": [
+          "primitive-String-0"
+        ],
+        "eclass": "__main__.Num-0",
+        "cost": 1.0,
+        "subsumed": false
+      },
+      "primitive-i64-2": {
+        "op": "2",
+        "children": [],
+        "eclass": "i64-2",
+        "cost": 1.0,
+        "subsumed": false
+      },
+      "function-0-__main___Num___init__": {
+        "op": "Num",
+        "children": [
+          "primitive-i64-2"
+        ],
+        "eclass": "__main__.Num-1",
+        "cost": 1.0,
+        "subsumed": false
+      },
+      "primitive-i64-1": {
+        "op": "1",
+        "children": [],
+        "eclass": "i64-1",
+        "cost": 1.0,
+        "subsumed": false
+      },
+      "function-1-__main___Num___init__": {
+        "op": "Num",
+        "children": [
+          "primitive-i64-1"
+        ],
+        "eclass": "__main__.Num-3",
+        "cost": 1.0,
+        "subsumed": false
+      }
+    },
+    "root_eclasses": [
+      "__main__.Num-4",
+      "__main__.Num-2"
+    ],
+    "class_data": {
+      "__main__.Num-4": {
+        "type": "__main__.Num",
+        "let": "expr"
+      },
+      "__main__.Num-2": {
+        "type": "__main__.Num"
+      },
+      "__main__.Num-3": {
+        "type": "__main__.Num"
+      },
+      "__main__.Num-0": {
+        "type": "__main__.Num"
+      },
+      "__main__.Num-1": {
+        "type": "__main__.Num"
+      },
+      "String-0": {
+        "type": "String"
+      },
+      "i64-2": {
+        "type": "i64"
+      },
+      "i64-1": {
+        "type": "i64"
+      }
+    }
+  },
+  "extractions": {
+    "__main__.Num-4": {
+      "best": "(Num.var(\"x\") + Num.var(\"x\")) + Num(1)",
+      "cost": 10,
+      "variants": [
+        "(Num.var(\"x\") + Num.var(\"x\")) + Num(1)"
+      ]
+    },
+    "__main__.Num-2": {
+      "best": "Num.var(\"x\") + Num.var(\"x\")",
+      "cost": 6,
+      "variants": [
+        "Num.var(\"x\") + Num.var(\"x\")",
+        "Num.var(\"x\") * Num(2)"
+      ]
+    }
+  }
+}
