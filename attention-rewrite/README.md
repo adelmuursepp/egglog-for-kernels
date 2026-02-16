@@ -2,23 +2,22 @@
 
 The code uses [egglog](https://github.com/egraphs-good/egglog) (via its Python bindings) to optimize the data movement in a simplified GPU attention kernel. It encodes two equivalent dataflow graphs for tiled attention into an e-graph, connects them with a rewrite rule, and extracts the lower-cost variant using ILP-based DAG extraction.
 
-## Simplified Attention Modeling
+## Simplified attention modeling
 
 We model attention with these two variants
 
 ![additional-media/simplified-attention-example.jpg](additional-media/simplified-attention-example.jpg)
 
-
 A simplified mainloop for the first version in pseudo code:
 
 ```
 # once, before the loop
-Load Q tile to SMEM from global           
+Load Q tile to SMEM from global
 
 for each K, V tile block:        # loop_iters = seq_len / tile_n
     Load K tile to SMEM
     Load V tile to SMEM
-    QK = WGMMA(Q_smem, K_smem)  
+    QK = WGMMA(Q_smem, K_smem)
     A  = scale(QK)               # elementwise: multiply by 1/sqrt(d))
     O += WGMMA(A, V_smem)        # accumulate output
 
@@ -41,6 +40,7 @@ Store O to global memory
 ```
 
 This saves data movement because:
+
 - In the naive version, WGMMA implicitly loads Q from SMEM to registers every iteration
 - In the rearranged version, Q is explicitly loaded to registers once and stays there
 
@@ -52,11 +52,11 @@ The two variants of doing the operations are shown below:
 
 The default example models a typical attention tile block:
 
-| Tile | Rows | Cols | Dtype | Size | loop_iters |
-|------|------|------|-------|------|------------|
+| Tile | Rows | Cols | Dtype     | Size     | loop_iters      |
+| ---- | ---- | ---- | --------- | -------- | --------------- |
 | Q    | 128  | 64   | fp16 (2B) | 16,384 B | 1 (loaded once) |
-| K    | 64   | 128  | fp16 (2B) | 16,384 B | 8 (streamed) |
-| V    | 128  | 64   | fp16 (2B) | 16,384 B | 8 (streamed) |
+| K    | 64   | 128  | fp16 (2B) | 16,384 B | 8 (streamed)    |
+| V    | 128  | 64   | fp16 (2B) | 16,384 B | 8 (streamed)    |
 
 - `d = 64` is the head dimension
 - `tile_m = 128` rows of Q processed at once
@@ -64,11 +64,7 @@ The default example models a typical attention tile block:
 - `loop_iters = 8` means `seq_len / tile_n = 1024 / 128 = 8` iterations
 - WGMMA output uses fp32 (4 bytes) for accumulation
 
-### Why WGMMA Has a Data Movement Cost
-
-WGMMA (Warpgroup Matrix Multiply-Accumulate) runs on tensor cores. When an operand is in shared memory, the hardware performs an implicit load from SMEM to registers to feed the tensor core. This is data movement that costs bytes. When an operand is already in registers, this implicit load is skipped. The cost model tracks `mem_region` (GLOBAL, SHARED, REGISTERS) for each tile and assigns WGMMA cost accordingly.
-
-## How the E-graph Finds the Optimal Path
+## How the E-graph finds the optimal path
 
 1. **Encode the naive dataflow** as egglog expressions (LDS, WGMMA, Elementwise, etc.)
 2. **Apply the rewrite rule**: `Elementwise(WGMMA(a, b))` => `WGMMA(Elementwise(LDR(a)), b)`. This adds the rearranged variant to the same e-class, so both paths coexist in the e-graph.
@@ -78,7 +74,7 @@ WGMMA (Warpgroup Matrix Multiply-Accumulate) runs on tensor cores. When an opera
 
 The ILP extractor correctly chooses the rearranged path because the total traffic is lower. The result is visible in the cost-annotated diagram at `output/egraph-costs.svg`, where green nodes are the selected optimal path and gray nodes are the alternatives the extractor did not choose.
 
-## Code Organization
+## Code organization
 
 ```
 attention-rewrite/
@@ -92,6 +88,7 @@ attention-rewrite/
 ### attention.py
 
 Defines the properties related to tile operations:
+
 - **MemRegion**: GLOBAL, SHARED, REGISTERS
 - **Tile**: input, LDS (global->shared), LDR (shared->registers), WGMMA (matmul), Elementwise (pure compute), STS (registers->shared), STG (shared->global)
 
@@ -108,6 +105,7 @@ The result is a "transaction dict" mapping each selected e-class to its traffic 
 ### visualize.py
 
 Builds a filtered Graphviz diagram showing only Tile operation nodes (omitting internal analysis property nodes like `.rows`, `.cols`, etc.). Generates two SVGs:
+
 - `output/egraph.svg`: Clean dataflow diagram showing all e-classes and their alternative e-nodes
 - `output/egraph-costs.svg`: Same diagram with per-e-class traffic costs annotated, selected nodes highlighted in green, alternatives grayed out
 
@@ -123,10 +121,10 @@ python run.py
 ```
 
 This generates:
+
 - `output/egraph.json` - serialized e-graph
 - `output/egraph.svg` - e-graph diagram
 - `output/egraph-costs.svg` - e-graph with ILP-selected costs highlighted
-
 
 ## Data transfer calculations
 
