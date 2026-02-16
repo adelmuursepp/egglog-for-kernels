@@ -1,0 +1,1631 @@
+{
+  "nodes": {
+    "primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "split-0-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "split-1-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-0-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-5-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "split-2-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-6-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-3-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-7-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-4-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-8-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-5-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-9-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-1-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-6-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-10-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-7-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-8-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-9-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "split-1-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "split-10-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "split-2-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "split-3-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-11-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-5-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "split-4-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-6-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-5-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-7-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-12-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-8-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-2-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-13-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-9-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-1-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-6-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-10-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-7-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-8-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-9-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "split-0-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "split-1-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "split-2-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-3-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-5-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "split-4-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-6-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-5-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-4": {
+      "op": "4",
+      "children": [],
+      "eclass": "i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-7-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-8-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-0-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-9-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-1-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-6-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-10-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-1-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-2-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-3-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "attention.MemRegion-11",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "attention.MemRegion-11",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "attention.MemRegion-11",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "attention.MemRegion-14",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "attention.MemRegion-14",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-5-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "attention.MemRegion-14",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-6-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-7-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-8-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-2-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-9-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-1-attention_Tile_Elementwise"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-10-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "attention.MemRegion-14",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "attention.MemRegion-11",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_MemRegion_GLOBAL": {
+      "op": "MemRegion.GLOBAL",
+      "children": [],
+      "eclass": "attention.MemRegion-11",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-String-0": {
+      "op": "\"Q\"",
+      "children": [],
+      "eclass": "String-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_input": {
+      "op": "Tile.input",
+      "children": [
+        "primitive-String-0",
+        "split-14-primitive-i64-128",
+        "split-10-primitive-i64-64",
+        "split-7-primitive-i64-2"
+      ],
+      "eclass": "attention.Tile-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-String-1": {
+      "op": "\"K\"",
+      "children": [],
+      "eclass": "String-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_input": {
+      "op": "Tile.input",
+      "children": [
+        "primitive-String-1",
+        "split-10-primitive-i64-64",
+        "split-14-primitive-i64-128",
+        "split-7-primitive-i64-2"
+      ],
+      "eclass": "attention.Tile-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-String-2": {
+      "op": "\"V\"",
+      "children": [],
+      "eclass": "String-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_input": {
+      "op": "Tile.input",
+      "children": [
+        "primitive-String-2",
+        "split-14-primitive-i64-128",
+        "split-10-primitive-i64-64",
+        "split-7-primitive-i64-2"
+      ],
+      "eclass": "attention.Tile-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_MemRegion_SHARED": {
+      "op": "MemRegion.SHARED",
+      "children": [],
+      "eclass": "attention.MemRegion-14",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "split-0-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "split-0-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-1-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-5-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "split-2-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-6-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-1-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-7-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-3-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-8-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-4-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-9-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-1-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-2-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-10-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-5-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-6-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-7-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_LDS": {
+      "op": "Tile.LDS",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "attention.Tile-3",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_LDS": {
+      "op": "Tile.LDS",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "attention.Tile-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_LDS": {
+      "op": "Tile.LDS",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "attention.Tile-7",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-16384": {
+      "op": "16384",
+      "children": [],
+      "eclass": "i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_LDS": {
+      "op": "cost(Tile.LDS(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_input"
+      ],
+      "eclass": "i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-cost_table_attention_Tile_LDS": {
+      "op": "cost(Tile.LDS(\u00b7))",
+      "children": [
+        "function-1-attention_Tile_input"
+      ],
+      "eclass": "i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-cost_table_attention_Tile_LDS": {
+      "op": "cost(Tile.LDS(\u00b7))",
+      "children": [
+        "function-2-attention_Tile_input"
+      ],
+      "eclass": "split-0-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_MemRegion_REGISTERS": {
+      "op": "MemRegion.REGISTERS",
+      "children": [],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_LDR": {
+      "op": "Tile.LDR",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-12",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_LDR": {
+      "op": "cost(Tile.LDR(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_LDS"
+      ],
+      "eclass": "split-0-primitive-i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_WGMMA": {
+      "op": "Tile.WGMMA",
+      "children": [
+        "function-0-attention_Tile_LDS",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-5",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_WGMMA": {
+      "op": "Tile.WGMMA",
+      "children": [
+        "function-2-attention_Tile_WGMMA",
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-attention_Tile_WGMMA": {
+      "op": "Tile.WGMMA",
+      "children": [
+        "function-1-attention_Tile_Elementwise",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-6",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-262144": {
+      "op": "262144",
+      "children": [],
+      "eclass": "i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_WGMMA": {
+      "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
+      "children": [
+        "function-0-attention_Tile_LDS",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-cost_table_attention_Tile_WGMMA": {
+      "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
+      "children": [
+        "function-1-attention_Tile_Elementwise",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-1-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-cost_table_attention_Tile_WGMMA": {
+      "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
+      "children": [
+        "function-2-attention_Tile_WGMMA",
+        "function-2-attention_Tile_LDS"
+      ],
+      "eclass": "split-2-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_Elementwise": {
+      "op": "Tile.Elementwise",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.Tile-6",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-attention_Tile_Elementwise": {
+      "op": "Tile.Elementwise",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "attention.Tile-13",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "primitive-i64-0": {
+      "op": "0",
+      "children": [],
+      "eclass": "i64-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_Elementwise": {
+      "op": "cost(Tile.Elementwise(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_WGMMA"
+      ],
+      "eclass": "i64-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-cost_table_attention_Tile_Elementwise": {
+      "op": "cost(Tile.Elementwise(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-0-primitive-i64-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_STS": {
+      "op": "Tile.STS",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.Tile-9",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_STS": {
+      "op": "cost(Tile.STS(\u00b7))",
+      "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "split-0-primitive-i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-attention_Tile_STG": {
+      "op": "Tile.STG",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "attention.Tile-10",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-0-cost_table_attention_Tile_STG": {
+      "op": "cost(Tile.STG(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-1-primitive-i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-0-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-1-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-2-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-3-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-4-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-5-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-5-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-6-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-6-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-7-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-7-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-8-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-8-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-9-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-9-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-10-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-10-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-11-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-11-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-12-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-12-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-13-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-13-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-14-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-14-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-0-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-1-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-2-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-3-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-4-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-5-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-5-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-6-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-6-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-7-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-7-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-8-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-8-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-9-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-9-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-10-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-10-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-0-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-1-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-2-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-3-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-4-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-5-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-5-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-6-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-6-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-7-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-7-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-4": {
+      "op": "4",
+      "children": [],
+      "eclass": "split-0-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-4": {
+      "op": "4",
+      "children": [],
+      "eclass": "split-1-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-4": {
+      "op": "4",
+      "children": [],
+      "eclass": "split-2-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-4": {
+      "op": "4",
+      "children": [],
+      "eclass": "split-3-primitive-i64-4",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "split-0-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "split-1-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "split-2-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-0-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-1-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-2-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-3-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-4-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-5-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-5-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-6-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-6-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-7-primitive-i64-8": {
+      "op": "8",
+      "children": [],
+      "eclass": "split-7-primitive-i64-8",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-16384": {
+      "op": "16384",
+      "children": [],
+      "eclass": "split-0-primitive-i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "split-0-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "split-1-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-2-primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "split-2-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-262144": {
+      "op": "262144",
+      "children": [],
+      "eclass": "split-0-primitive-i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-1-primitive-i64-262144": {
+      "op": "262144",
+      "children": [],
+      "eclass": "split-1-primitive-i64-262144",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-0-primitive-i64-0": {
+      "op": "0",
+      "children": [],
+      "eclass": "split-0-primitive-i64-0",
+      "cost": 1.0,
+      "subsumed": false
+    }
+  },
+  "root_eclasses": [
+    "attention.Tile-10"
+  ],
+  "class_data": {
+    "i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "attention.Tile-0": {
+      "type": "attention.Tile"
+    },
+    "i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "attention.Tile-1": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-2": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-3": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-4": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-7": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-12": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-5": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-6": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-13": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-8": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-9": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-10": {
+      "type": "attention.Tile",
+      "let": "attention_output"
+    },
+    "i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "i64-4": {
+      "type": "i64"
+    },
+    "attention.MemRegion-11": {
+      "type": "attention.MemRegion"
+    },
+    "attention.MemRegion-14": {
+      "type": "attention.MemRegion"
+    },
+    "attention.MemRegion-15": {
+      "type": "attention.MemRegion"
+    },
+    "String-0": {
+      "type": "String"
+    },
+    "String-1": {
+      "type": "String"
+    },
+    "String-2": {
+      "type": "String"
+    },
+    "i64-1": {
+      "type": "i64"
+    },
+    "i64-8": {
+      "type": "i64"
+    },
+    "i64-16384": {
+      "type": "i64"
+    },
+    "i64-131072": {
+      "type": "i64"
+    },
+    "i64-262144": {
+      "type": "i64"
+    },
+    "i64-0": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-1-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-2-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-3-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-4-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-5-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-6-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-7-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-8-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-9-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-10-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-11-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-12-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-13-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-14-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_5754699622997068407"
+    },
+    "split-0-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-1-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-2-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-3-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-4-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-5-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-6-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-7-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-8-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-9-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-10-primitive-i64-64": {
+      "type": "i64",
+      "let": "__expr_7258577985005686961"
+    },
+    "split-0-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-1-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-2-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-3-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-4-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-5-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-6-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-7-primitive-i64-2": {
+      "type": "i64",
+      "let": "__expr_-453042618010416882"
+    },
+    "split-0-primitive-i64-4": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-4": {
+      "type": "i64"
+    },
+    "split-2-primitive-i64-4": {
+      "type": "i64"
+    },
+    "split-3-primitive-i64-4": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-1": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-1": {
+      "type": "i64"
+    },
+    "split-2-primitive-i64-1": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-2-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-3-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-4-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-5-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-6-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-7-primitive-i64-8": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-16384": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-131072": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-131072": {
+      "type": "i64"
+    },
+    "split-2-primitive-i64-131072": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-262144": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-262144": {
+      "type": "i64"
+    },
+    "split-0-primitive-i64-0": {
+      "type": "i64"
+    }
+  }
+}
