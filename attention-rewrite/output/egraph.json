@@ -80,7 +80,7 @@
     "function-7-attention_Tile_rows": {
       "op": "\u00b7.rows",
       "children": [
-        "function-0-attention_Tile_WGMMA"
+        "function-3-attention_Tile_WGMMA"
       ],
       "eclass": "split-4-primitive-i64-128",
       "cost": 1.0,
@@ -89,7 +89,7 @@
     "function-8-attention_Tile_rows": {
       "op": "\u00b7.rows",
       "children": [
-        "function-0-attention_Tile_Elementwise"
+        "function-4-attention_Tile_WGMMA"
       ],
       "eclass": "split-5-primitive-i64-128",
       "cost": 1.0,
@@ -107,7 +107,7 @@
     "function-10-attention_Tile_rows": {
       "op": "\u00b7.rows",
       "children": [
-        "function-1-attention_Tile_WGMMA"
+        "function-1-attention_Tile_LDR"
       ],
       "eclass": "split-7-primitive-i64-128",
       "cost": 1.0,
@@ -116,7 +116,7 @@
     "function-11-attention_Tile_rows": {
       "op": "\u00b7.rows",
       "children": [
-        "function-0-attention_Tile_STS"
+        "function-1-attention_Tile_WGMMA"
       ],
       "eclass": "split-8-primitive-i64-128",
       "cost": 1.0,
@@ -125,9 +125,27 @@
     "function-12-attention_Tile_rows": {
       "op": "\u00b7.rows",
       "children": [
-        "function-0-attention_Tile_STG"
+        "function-2-attention_Tile_Elementwise"
       ],
       "eclass": "split-9-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-13-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-10-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-14-attention_Tile_rows": {
+      "op": "\u00b7.rows",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-11-primitive-i64-128",
       "cost": 1.0,
       "subsumed": false
     },
@@ -145,7 +163,7 @@
       "children": [
         "function-1-attention_Tile_input"
       ],
-      "eclass": "split-10-primitive-i64-128",
+      "eclass": "split-12-primitive-i64-128",
       "cost": 1.0,
       "subsumed": false
     },
@@ -172,7 +190,7 @@
       "children": [
         "function-1-attention_Tile_LDS"
       ],
-      "eclass": "split-11-primitive-i64-128",
+      "eclass": "split-13-primitive-i64-128",
       "cost": 1.0,
       "subsumed": false
     },
@@ -199,16 +217,16 @@
       "children": [
         "function-0-attention_Tile_WGMMA"
       ],
-      "eclass": "split-12-primitive-i64-128",
+      "eclass": "split-14-primitive-i64-128",
       "cost": 1.0,
       "subsumed": false
     },
     "function-8-attention_Tile_cols": {
       "op": "\u00b7.cols",
       "children": [
-        "function-2-attention_Tile_WGMMA"
+        "function-0-attention_Tile_Elementwise"
       ],
-      "eclass": "split-13-primitive-i64-128",
+      "eclass": "split-15-primitive-i64-128",
       "cost": 1.0,
       "subsumed": false
     },
@@ -224,7 +242,7 @@
     "function-10-attention_Tile_cols": {
       "op": "\u00b7.cols",
       "children": [
-        "function-1-attention_Tile_WGMMA"
+        "function-1-attention_Tile_LDR"
       ],
       "eclass": "split-7-primitive-i64-64",
       "cost": 1.0,
@@ -233,7 +251,7 @@
     "function-11-attention_Tile_cols": {
       "op": "\u00b7.cols",
       "children": [
-        "function-0-attention_Tile_STS"
+        "function-1-attention_Tile_WGMMA"
       ],
       "eclass": "split-8-primitive-i64-64",
       "cost": 1.0,
@@ -242,9 +260,27 @@
     "function-12-attention_Tile_cols": {
       "op": "\u00b7.cols",
       "children": [
-        "function-0-attention_Tile_STG"
+        "function-2-attention_Tile_Elementwise"
       ],
       "eclass": "split-9-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-13-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_STS"
+      ],
+      "eclass": "split-10-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-14-attention_Tile_cols": {
+      "op": "\u00b7.cols",
+      "children": [
+        "function-0-attention_Tile_STG"
+      ],
+      "eclass": "split-11-primitive-i64-64",
       "cost": 1.0,
       "subsumed": false
     },
@@ -328,7 +364,7 @@
     "function-7-attention_Tile_dtype_bytes": {
       "op": "\u00b7.dtype_bytes",
       "children": [
-        "function-0-attention_Tile_WGMMA"
+        "function-3-attention_Tile_WGMMA"
       ],
       "eclass": "i64-4",
       "cost": 1.0,
@@ -337,7 +373,7 @@
     "function-8-attention_Tile_dtype_bytes": {
       "op": "\u00b7.dtype_bytes",
       "children": [
-        "function-0-attention_Tile_Elementwise"
+        "function-2-attention_Tile_WGMMA"
       ],
       "eclass": "split-0-primitive-i64-4",
       "cost": 1.0,
@@ -355,13 +391,31 @@
     "function-10-attention_Tile_dtype_bytes": {
       "op": "\u00b7.dtype_bytes",
       "children": [
+        "function-1-attention_Tile_LDR"
+      ],
+      "eclass": "split-7-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
         "function-1-attention_Tile_WGMMA"
       ],
       "eclass": "split-1-primitive-i64-4",
       "cost": 1.0,
       "subsumed": false
     },
-    "function-11-attention_Tile_dtype_bytes": {
+    "function-12-attention_Tile_dtype_bytes": {
+      "op": "\u00b7.dtype_bytes",
+      "children": [
+        "function-2-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-8-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-13-attention_Tile_dtype_bytes": {
       "op": "\u00b7.dtype_bytes",
       "children": [
         "function-0-attention_Tile_STS"
@@ -370,7 +424,7 @@
       "cost": 1.0,
       "subsumed": false
     },
-    "function-12-attention_Tile_dtype_bytes": {
+    "function-14-attention_Tile_dtype_bytes": {
       "op": "\u00b7.dtype_bytes",
       "children": [
         "function-0-attention_Tile_STG"
@@ -454,7 +508,7 @@
     "function-8-attention_Tile_mem_region": {
       "op": "\u00b7.mem_region",
       "children": [
-        "function-2-attention_Tile_WGMMA"
+        "function-4-attention_Tile_WGMMA"
       ],
       "eclass": "attention.MemRegion-15",
       "cost": 1.0,
@@ -472,7 +526,7 @@
     "function-10-attention_Tile_mem_region": {
       "op": "\u00b7.mem_region",
       "children": [
-        "function-1-attention_Tile_WGMMA"
+        "function-1-attention_Tile_LDR"
       ],
       "eclass": "attention.MemRegion-15",
       "cost": 1.0,
@@ -481,13 +535,31 @@
     "function-11-attention_Tile_mem_region": {
       "op": "\u00b7.mem_region",
       "children": [
+        "function-1-attention_Tile_WGMMA"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-12-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
+        "function-2-attention_Tile_Elementwise"
+      ],
+      "eclass": "attention.MemRegion-15",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-13-attention_Tile_mem_region": {
+      "op": "\u00b7.mem_region",
+      "children": [
         "function-0-attention_Tile_STS"
       ],
       "eclass": "attention.MemRegion-14",
       "cost": 1.0,
       "subsumed": false
     },
-    "function-12-attention_Tile_mem_region": {
+    "function-14-attention_Tile_mem_region": {
       "op": "\u00b7.mem_region",
       "children": [
         "function-0-attention_Tile_STG"
@@ -514,9 +586,9 @@
       "op": "Tile.input",
       "children": [
         "primitive-String-0",
-        "split-14-primitive-i64-128",
-        "split-10-primitive-i64-64",
-        "split-7-primitive-i64-2"
+        "split-16-primitive-i64-128",
+        "split-12-primitive-i64-64",
+        "split-9-primitive-i64-2"
       ],
       "eclass": "attention.Tile-0",
       "cost": 1.0,
@@ -533,9 +605,9 @@
       "op": "Tile.input",
       "children": [
         "primitive-String-1",
-        "split-10-primitive-i64-64",
-        "split-14-primitive-i64-128",
-        "split-7-primitive-i64-2"
+        "split-12-primitive-i64-64",
+        "split-16-primitive-i64-128",
+        "split-9-primitive-i64-2"
       ],
       "eclass": "attention.Tile-1",
       "cost": 1.0,
@@ -552,9 +624,9 @@
       "op": "Tile.input",
       "children": [
         "primitive-String-2",
-        "split-14-primitive-i64-128",
-        "split-10-primitive-i64-64",
-        "split-7-primitive-i64-2"
+        "split-16-primitive-i64-128",
+        "split-12-primitive-i64-64",
+        "split-9-primitive-i64-2"
       ],
       "eclass": "attention.Tile-2",
       "cost": 1.0,
@@ -647,7 +719,7 @@
     "function-7-attention_Tile_loop_iters": {
       "op": "\u00b7.loop_iters",
       "children": [
-        "function-0-attention_Tile_WGMMA"
+        "function-3-attention_Tile_WGMMA"
       ],
       "eclass": "split-3-primitive-i64-8",
       "cost": 1.0,
@@ -674,13 +746,31 @@
     "function-10-attention_Tile_loop_iters": {
       "op": "\u00b7.loop_iters",
       "children": [
+        "function-1-attention_Tile_LDR"
+      ],
+      "eclass": "split-3-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-11-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
         "function-1-attention_Tile_WGMMA"
       ],
       "eclass": "split-5-primitive-i64-8",
       "cost": 1.0,
       "subsumed": false
     },
-    "function-11-attention_Tile_loop_iters": {
+    "function-12-attention_Tile_loop_iters": {
+      "op": "\u00b7.loop_iters",
+      "children": [
+        "function-2-attention_Tile_Elementwise"
+      ],
+      "eclass": "split-4-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-13-attention_Tile_loop_iters": {
       "op": "\u00b7.loop_iters",
       "children": [
         "function-0-attention_Tile_STS"
@@ -689,7 +779,7 @@
       "cost": 1.0,
       "subsumed": false
     },
-    "function-12-attention_Tile_loop_iters": {
+    "function-14-attention_Tile_loop_iters": {
       "op": "\u00b7.loop_iters",
       "children": [
         "function-0-attention_Tile_STG"
@@ -782,12 +872,30 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "function-1-attention_Tile_LDR": {
+      "op": "Tile.LDR",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "attention.Tile-16",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "function-0-cost_table_attention_Tile_LDR": {
       "op": "cost(Tile.LDR(\u00b7))",
       "children": [
         "function-0-attention_Tile_LDS"
       ],
       "eclass": "split-0-primitive-i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-1-cost_table_attention_Tile_LDR": {
+      "op": "cost(Tile.LDR(\u00b7))",
+      "children": [
+        "function-0-attention_Tile_LDR"
+      ],
+      "eclass": "split-1-primitive-i64-16384",
       "cost": 1.0,
       "subsumed": false
     },
@@ -821,6 +929,26 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "function-3-attention_Tile_WGMMA": {
+      "op": "Tile.WGMMA",
+      "children": [
+        "function-0-attention_Tile_LDR",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-5",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-attention_Tile_WGMMA": {
+      "op": "Tile.WGMMA",
+      "children": [
+        "function-2-attention_Tile_Elementwise",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "attention.Tile-6",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "primitive-i64-262144": {
       "op": "262144",
       "children": [],
@@ -841,7 +969,7 @@
     "function-1-cost_table_attention_Tile_WGMMA": {
       "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
       "children": [
-        "function-1-attention_Tile_Elementwise",
+        "function-0-attention_Tile_LDR",
         "function-1-attention_Tile_LDS"
       ],
       "eclass": "split-1-primitive-i64-131072",
@@ -851,10 +979,30 @@
     "function-2-cost_table_attention_Tile_WGMMA": {
       "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
       "children": [
+        "function-1-attention_Tile_Elementwise",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-2-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-3-cost_table_attention_Tile_WGMMA": {
+      "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
+      "children": [
         "function-2-attention_Tile_WGMMA",
         "function-2-attention_Tile_LDS"
       ],
-      "eclass": "split-2-primitive-i64-131072",
+      "eclass": "split-3-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-4-cost_table_attention_Tile_WGMMA": {
+      "op": "cost(Tile.WGMMA(\u00b7, \u00b7))",
+      "children": [
+        "function-2-attention_Tile_Elementwise",
+        "function-1-attention_Tile_LDS"
+      ],
+      "eclass": "split-4-primitive-i64-131072",
       "cost": 1.0,
       "subsumed": false
     },
@@ -876,6 +1024,15 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "function-2-attention_Tile_Elementwise": {
+      "op": "Tile.Elementwise",
+      "children": [
+        "function-1-attention_Tile_LDR"
+      ],
+      "eclass": "attention.Tile-17",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "primitive-i64-0": {
       "op": "0",
       "children": [],
@@ -886,7 +1043,7 @@
     "function-0-cost_table_attention_Tile_Elementwise": {
       "op": "cost(Tile.Elementwise(\u00b7))",
       "children": [
-        "function-0-attention_Tile_WGMMA"
+        "function-3-attention_Tile_WGMMA"
       ],
       "eclass": "i64-0",
       "cost": 1.0,
@@ -898,6 +1055,15 @@
         "function-0-attention_Tile_LDR"
       ],
       "eclass": "split-0-primitive-i64-0",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "function-2-cost_table_attention_Tile_Elementwise": {
+      "op": "cost(Tile.Elementwise(\u00b7))",
+      "children": [
+        "function-1-attention_Tile_LDR"
+      ],
+      "eclass": "split-1-primitive-i64-0",
       "cost": 1.0,
       "subsumed": false
     },
@@ -1042,6 +1208,20 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "split-15-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-15-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-16-primitive-i64-128": {
+      "op": "128",
+      "children": [],
+      "eclass": "split-16-primitive-i64-128",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "split-0-primitive-i64-64": {
       "op": "64",
       "children": [],
@@ -1119,6 +1299,20 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "split-11-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-11-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-12-primitive-i64-64": {
+      "op": "64",
+      "children": [],
+      "eclass": "split-12-primitive-i64-64",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "split-0-primitive-i64-2": {
       "op": "2",
       "children": [],
@@ -1175,6 +1369,20 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "split-8-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-8-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-9-primitive-i64-2": {
+      "op": "2",
+      "children": [],
+      "eclass": "split-9-primitive-i64-2",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "split-0-primitive-i64-4": {
       "op": "4",
       "children": [],
@@ -1221,6 +1429,20 @@
       "op": "1",
       "children": [],
       "eclass": "split-2-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "split-3-primitive-i64-1",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-1": {
+      "op": "1",
+      "children": [],
+      "eclass": "split-4-primitive-i64-1",
       "cost": 1.0,
       "subsumed": false
     },
@@ -1287,6 +1509,13 @@
       "cost": 1.0,
       "subsumed": false
     },
+    "split-1-primitive-i64-16384": {
+      "op": "16384",
+      "children": [],
+      "eclass": "split-1-primitive-i64-16384",
+      "cost": 1.0,
+      "subsumed": false
+    },
     "split-0-primitive-i64-131072": {
       "op": "131072",
       "children": [],
@@ -1305,6 +1534,20 @@
       "op": "131072",
       "children": [],
       "eclass": "split-2-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-3-primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "split-3-primitive-i64-131072",
+      "cost": 1.0,
+      "subsumed": false
+    },
+    "split-4-primitive-i64-131072": {
+      "op": "131072",
+      "children": [],
+      "eclass": "split-4-primitive-i64-131072",
       "cost": 1.0,
       "subsumed": false
     },
@@ -1328,6 +1571,13 @@
       "eclass": "split-0-primitive-i64-0",
       "cost": 1.0,
       "subsumed": false
+    },
+    "split-1-primitive-i64-0": {
+      "op": "0",
+      "children": [],
+      "eclass": "split-1-primitive-i64-0",
+      "cost": 1.0,
+      "subsumed": false
     }
   },
   "root_eclasses": [
@@ -1336,14 +1586,13 @@
   "class_data": {
     "i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "attention.Tile-0": {
       "type": "attention.Tile"
     },
     "i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "attention.Tile-1": {
       "type": "attention.Tile"
@@ -1372,7 +1621,13 @@
     "attention.Tile-13": {
       "type": "attention.Tile"
     },
+    "attention.Tile-16": {
+      "type": "attention.Tile"
+    },
     "attention.Tile-8": {
+      "type": "attention.Tile"
+    },
+    "attention.Tile-17": {
       "type": "attention.Tile"
     },
     "attention.Tile-9": {
@@ -1383,8 +1638,7 @@
       "let": "attention_output"
     },
     "i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "i64-4": {
       "type": "i64"
@@ -1427,139 +1681,140 @@
     },
     "split-0-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-1-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-2-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-3-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-4-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-5-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-6-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-7-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-8-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-9-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-10-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-11-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-12-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-13-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
     },
     "split-14-primitive-i64-128": {
       "type": "i64",
-      "let": "__expr_5754699622997068407"
+      "let": "__expr_8341188536702915635"
+    },
+    "split-15-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_8341188536702915635"
+    },
+    "split-16-primitive-i64-128": {
+      "type": "i64",
+      "let": "__expr_8341188536702915635"
     },
     "split-0-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-1-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-2-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-3-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-4-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-5-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-6-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-7-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-8-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-9-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
     },
     "split-10-primitive-i64-64": {
-      "type": "i64",
-      "let": "__expr_7258577985005686961"
+      "type": "i64"
+    },
+    "split-11-primitive-i64-64": {
+      "type": "i64"
+    },
+    "split-12-primitive-i64-64": {
+      "type": "i64"
     },
     "split-0-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-1-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-2-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-3-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-4-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-5-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-6-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
     },
     "split-7-primitive-i64-2": {
-      "type": "i64",
-      "let": "__expr_-453042618010416882"
+      "type": "i64"
+    },
+    "split-8-primitive-i64-2": {
+      "type": "i64"
+    },
+    "split-9-primitive-i64-2": {
+      "type": "i64"
     },
     "split-0-primitive-i64-4": {
       "type": "i64"
@@ -1580,6 +1835,12 @@
       "type": "i64"
     },
     "split-2-primitive-i64-1": {
+      "type": "i64"
+    },
+    "split-3-primitive-i64-1": {
+      "type": "i64"
+    },
+    "split-4-primitive-i64-1": {
       "type": "i64"
     },
     "split-0-primitive-i64-8": {
@@ -1609,6 +1870,9 @@
     "split-0-primitive-i64-16384": {
       "type": "i64"
     },
+    "split-1-primitive-i64-16384": {
+      "type": "i64"
+    },
     "split-0-primitive-i64-131072": {
       "type": "i64"
     },
@@ -1618,6 +1882,12 @@
     "split-2-primitive-i64-131072": {
       "type": "i64"
     },
+    "split-3-primitive-i64-131072": {
+      "type": "i64"
+    },
+    "split-4-primitive-i64-131072": {
+      "type": "i64"
+    },
     "split-0-primitive-i64-262144": {
       "type": "i64"
     },
@@ -1625,6 +1895,9 @@
       "type": "i64"
     },
     "split-0-primitive-i64-0": {
+      "type": "i64"
+    },
+    "split-1-primitive-i64-0": {
       "type": "i64"
     }
   }

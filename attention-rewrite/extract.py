@@ -185,6 +185,102 @@ def compute_traffic_costs(graph_json):
     return costs
 
 
+def _ilp_solve(graph_json, node_costs, target_cost=None, excluded=None):
+    """Build and solve the egraph ILP from scratch.
+
+    target_cost: if given, adds an equality constraint fixing the objective
+                 to that value (used for enumerating all optimal solutions).
+    excluded:    list of previously found selected dicts; a no-good cut is
+                 added for each so the solver must find a different solution.
+
+    Returns (total_cost, selected_dict) or (None, None) if infeasible.
+    """
+    nodes = graph_json["nodes"]
+    root_eclasses = graph_json["root_eclasses"]
+
+    eclass_to_nodes = {}
+    for nid, ndata in nodes.items():
+        ec = ndata["eclass"]
+        eclass_to_nodes.setdefault(ec, []).append(nid)
+
+    def children_eclasses(nid):
+        return [nodes[child]["eclass"] for child in nodes[nid]["children"]]
+
+    def cost(nid):
+        if node_costs and nid in node_costs:
+            return node_costs[nid]
+        return nodes[nid]["cost"]
+
+    prob = pulp.LpProblem("egraph_extraction", pulp.LpMinimize)
+    x = {nid: pulp.LpVariable(f"x_{nid}", cat="Binary") for nid in nodes}
+    y = {ec: pulp.LpVariable(f"y_{ec}", cat="Binary") for ec in eclass_to_nodes}
+
+    obj = pulp.lpSum(cost(nid) * x[nid] for nid in nodes)
+    prob += obj
+
+    if target_cost is not None:
+        prob += obj == target_cost
+
+    for rec in root_eclasses:
+        if rec in y:
+            prob += y[rec] == 1
+
+    for ec, nids in eclass_to_nodes.items():
+        prob += pulp.lpSum(x[nid] for nid in nids) == y[ec]
+
+    for nid in nodes:
+        for child_ec in children_eclasses(nid):
+            if child_ec in y:
+                prob += y[child_ec] >= x[nid]
+
+    # No-good cuts: each prior solution must differ in at least one selected node
+    for prev in (excluded or []):
+        prev_nids = list(prev.values())
+        prob += pulp.lpSum(x[nid] for nid in prev_nids) <= len(prev_nids) - 1
+
+    prob.solve(pulp.PULP_CBC_CMD(msg=0))
+
+    if pulp.LpStatus[prob.status] != "Optimal":
+        return None, None
+
+    total_cost = pulp.value(prob.objective)
+    selected = {}
+    for ec, nids in eclass_to_nodes.items():
+        for nid in nids:
+            if pulp.value(x[nid]) is not None and pulp.value(x[nid]) > 0.5:
+                selected[ec] = nid
+                break
+
+    return total_cost, selected
+
+
+def ilp_extract_all_optimal(graph_json, node_costs=None, max_solutions=10):
+    """Find all optimal DAG extractions via ILP using no-good cuts.
+
+    After the first solution is found at cost C*, additional solves fix
+    the objective to C* and add a no-good cut for each prior solution,
+    forcing the solver to find a structurally different extraction with
+    the same total cost.
+
+    Returns (optimal_cost, [selected_dict_1, selected_dict_2, ...]).
+    The list has length 1 if the optimal solution is unique.
+    """
+    optimal_cost, first_selected = ilp_extract(graph_json, node_costs)
+    solutions = [first_selected]
+
+    for _ in range(max_solutions - 1):
+        _, next_selected = _ilp_solve(
+            graph_json, node_costs,
+            target_cost=int(optimal_cost),
+            excluded=solutions,
+        )
+        if next_selected is None:
+            break
+        solutions.append(next_selected)
+
+    return optimal_cost, solutions
+
+
 def main(json_path):
     with open(json_path) as f:
         graph_json = json.load(f)

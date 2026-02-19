@@ -67,12 +67,45 @@ The default example models a typical attention tile block:
 ## How the E-graph finds the optimal path
 
 1. **Encode the naive dataflow** as egglog expressions (LDS, WGMMA, Elementwise, etc.)
-2. **Apply the rewrite rule**: `Elementwise(WGMMA(a, b))` => `WGMMA(Elementwise(LDR(a)), b)`. This adds the rearranged variant to the same e-class, so both paths coexist in the e-graph.
+2. **Apply rewrite rules** — two rules add alternative representations to the e-graph:
+   - *Hoist elementwise*: `Elementwise(WGMMA(a, b))` ⟹ `WGMMA(Elementwise(LDR(a)), b)`
+   - *Explicit register load*: `WGMMA(a, b)` ⟹ `WGMMA(LDR(a), b)` (only when `a` is in SMEM)
+
+   Both alternatives coexist in the same e-class as the original expression.
 3. **Propagate analysis**: Rules fire to compute `rows`, `cols`, `dtype_bytes`, `mem_region`, and `loop_iters` for every e-node.
 4. **Assign costs**: `set_cost()` on each e-node records its data movement in bytes, scaled by `loop_iters`.
-5. **Extract**: ILP-based DAG extraction picks one e-node per active e-class to minimize total cost. Each e-class is counted once (no double-counting shared subexpressions).
+5. **Extract**: ILP-based DAG extraction picks one e-node per active e-class to minimize total cost. Each e-class is counted once (no double-counting shared subexpressions). All extractions at the same optimal cost are enumerated using no-good cuts.
 
-The ILP extractor correctly chooses the rearranged path because the total traffic is lower. The result is visible in the cost-annotated diagram at `output/egraph-costs.svg`, where green nodes are the selected optimal path and gray nodes are the alternatives the extractor did not choose.
+The ILP extractor correctly chooses the rearranged path because the total traffic is lower. The result is visible in the cost-annotated diagram at `output/egraph-costs.svg`. In the multi-solution case, green nodes appear in **all** optimal solutions, yellow in **some**, and grey in none.
+
+## The two rewrite rules
+
+### Rewrite 1 — Hoist elementwise out of WGMMA
+
+```
+Elementwise(WGMMA(a, b))  =>  WGMMA(Elementwise(LDR(a)), b)
+```
+
+When a scale (or any elementwise op) sits directly on top of a matmul, this moves the scale before the matmul. This is valid because scaling is linear: `scale(Q @ K) == scale(Q) @ K`. The rewrite also introduces an explicit `LDR(a)`, meaning the left operand is loaded to registers as part of the transformation. The combined effect in the attention kernel: Q is scaled *once*, outside the loop, and stays in registers for all loop iterations.
+
+### Rewrite 2 — Explicit register load before WGMMA
+
+```
+WGMMA(a_smem, b)  =>  WGMMA(LDR(a_smem), b)    [only when a.mem_region == SHARED]
+```
+
+This is the more primitive building block, added based on the insight that the optimization does not depend on an elementwise op being present. It fires on any WGMMA where the left operand is in SMEM, offering the ILP a choice:
+
+- **Pay for LDR once**: `bytes(a) × a.loop_iters` (load Q once before the loop)
+- **Let WGMMA load implicitly each iteration**: `bytes(a) × loop_iters_of_WGMMA` (load Q 8 times)
+
+When `a.loop_iters < b.loop_iters` — i.e. Q is loaded once but the WGMMA runs 8 times — the explicit LDR is always cheaper. The condition `a.mem_region == SHARED` prevents infinite chaining: once `a` is in REGISTERS (after an LDR), the rule no longer matches.
+
+### Why both rules are needed
+
+Rewrite 1 only fires when an elementwise op wraps the WGMMA. Rewrite 2 is unconditional on that — it fires on any WGMMA with a SMEM left operand. In the current attention kernel both paths discover the same cost savings and the ILP finds two optimal solutions of equal cost (visible as green/yellow nodes in `egraph-costs.svg`). In a kernel with no scale step, Rewrite 2 would be the only way to discover the optimization.
+
+When both rules apply, the ILP naturally prefers whichever combination is cheapest. No double-counting occurs: each e-class is selected exactly once regardless of how many rewrites produced alternatives in it.
 
 ## Code organization
 
@@ -100,6 +133,8 @@ Registers e-class analysis rules that propagate tile metadata (dimensions, dtype
 
 Reads the serialized egraph JSON and computes per-node traffic costs by parsing the analysis property nodes embedded in the graph. Uses PuLP to solve an ILP that selects one e-node per reachable e-class minimizing total data movement.
 
+`ilp_extract` finds one optimal solution. `ilp_extract_all_optimal` enumerates all solutions at the same minimum cost using no-good cuts: after each solution is found, a constraint is added that forces the next solve to differ in at least one selected node. This continues until no further solutions exist at the optimal cost.
+
 The result is a "transaction dict" mapping each selected e-class to its traffic cost in bytes. The total cost is the sum of the dict values.
 
 ### visualize.py
@@ -107,7 +142,7 @@ The result is a "transaction dict" mapping each selected e-class to its traffic 
 Builds a filtered Graphviz diagram showing only Tile operation nodes (omitting internal analysis property nodes like `.rows`, `.cols`, etc.). Generates two SVGs:
 
 - `output/egraph.svg`: Clean dataflow diagram showing all e-classes and their alternative e-nodes
-- `output/egraph-costs.svg`: Same diagram with per-e-class traffic costs annotated, selected nodes highlighted in green, alternatives grayed out
+- `output/egraph-costs.svg`: Same diagram with per-e-class traffic costs annotated. When multiple optimal solutions exist: green = node chosen in all solutions, yellow = chosen in some, grey = not chosen. When only one solution: green = chosen, grey = not chosen.
 
 ### run.py
 

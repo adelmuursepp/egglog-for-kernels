@@ -12,13 +12,18 @@ Generates two diagrams:
 import graphviz
 
 
-def _build_dot(graph_json, eclass_costs=None, selected=None):
+def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
     """Build a filtered graphviz Digraph showing only Tile operation nodes.
 
     If eclass_costs is provided (dict of eclass -> bytes), annotates each
     e-class with its transaction cost.
     If selected is provided (dict of eclass -> node_id from ILP), highlights
-    the chosen nodes and dims the alternatives.
+    the chosen nodes and dims the alternatives (single-solution mode).
+    If all_selected is provided (list of selected dicts), uses three-color
+    highlighting across all optimal solutions:
+      - Green:  node appears in ALL optimal solutions
+      - Yellow: node appears in SOME but not all optimal solutions
+      - Grey:   node not chosen in any optimal solution
     """
     nodes = graph_json["nodes"]
     root_eclasses = set(graph_json["root_eclasses"])
@@ -33,9 +38,20 @@ def _build_dot(graph_json, eclass_costs=None, selected=None):
 
     selected_nids = set(selected.values()) if selected else set()
 
+    # Pre-compute per-node selection counts across all optimal solutions
+    if all_selected:
+        n_solutions = len(all_selected)
+        node_selection_count = {}
+        for sol in all_selected:
+            for nid in sol.values():
+                node_selection_count[nid] = node_selection_count.get(nid, 0) + 1
+    else:
+        n_solutions = 1
+        node_selection_count = {nid: 1 for nid in selected_nids}
+
     dot = graphviz.Digraph(format="svg")
     dot.attr(rankdir="TB", fontname="Helvetica", fontsize="11",
-             nodesep="0.4", ranksep="0.6")
+             nodesep="0.7", ranksep="1.0")
     dot.attr("node", shape="none", fontname="Helvetica", fontsize="10")
 
     # Add legend when showing costs
@@ -46,10 +62,15 @@ def _build_dot(graph_json, eclass_costs=None, selected=None):
             legend.attr(style="rounded", color="#999999",
                         label="", fontsize="9")
             legend_text = (
-                f'Costs shown are for the ILP-selected optimal DAG path.\\n'
+                f'Costs shown are for ILP-optimal DAG path(s).\\n'
                 f'Total traffic: {total_kb:,.0f} KB ({total_bytes:,} bytes)\\n'
             )
-            if selected:
+            if all_selected and n_solutions > 1:
+                legend_text += (
+                    f'{n_solutions} optimal solutions found (same cost).\\n'
+                    f'Green = in ALL solutions  |  Yellow = in SOME  |  Gray = not chosen'
+                )
+            elif selected or all_selected:
                 legend_text += (
                     f'Green = selected node  |  Gray = alternative (not chosen)'
                 )
@@ -59,10 +80,19 @@ def _build_dot(graph_json, eclass_costs=None, selected=None):
 
     for ec, nids in eclass_to_nodes.items():
         is_root = ec in root_eclasses
-        ec_selected = selected and ec in selected
+        # Determine e-class highlight based on best node in it
         if is_root:
             color = "#ffcccc"
-        elif ec_selected:
+        elif all_selected:
+            counts = [node_selection_count.get(nid, 0) for nid in nids]
+            best = max(counts)
+            if best == n_solutions:
+                color = "#e8f5e9"        # all solutions chose a node here
+            elif best > 0:
+                color = "#fffde7"        # some solutions chose a node here
+            else:
+                color = "#f5f5f5"
+        elif selected and ec in selected:
             color = "#e8f5e9"
         else:
             color = "#f5f5f5" if selected else "#e8e8e8"
@@ -84,11 +114,25 @@ def _build_dot(graph_json, eclass_costs=None, selected=None):
                 else:
                     label = op
 
-                if selected and nid in selected_nids:
+                count = node_selection_count.get(nid, 0)
+                if all_selected and n_solutions > 1:
+                    if count == n_solutions:
+                        bg = "#c8e6c9"
+                        border_color = "#2e7d32"
+                        font_color = "black"
+                    elif count > 0:
+                        bg = "#fff9c4"
+                        border_color = "#f9a825"
+                        font_color = "black"
+                    else:
+                        bg = "#e0e0e0"
+                        border_color = "#bdbdbd"
+                        font_color = "#888888"
+                elif selected and nid in selected_nids:
                     bg = "#c8e6c9"
                     border_color = "#2e7d32"
                     font_color = "black"
-                elif selected:
+                elif selected or all_selected:
                     bg = "#e0e0e0"
                     border_color = "#bdbdbd"
                     font_color = "#888888"
@@ -114,21 +158,27 @@ def _build_dot(graph_json, eclass_costs=None, selected=None):
     return dot
 
 
-def visualize(graph_json, output_path="egraph", eclass_costs=None, selected=None):
+def visualize(graph_json, output_path="egraph", eclass_costs=None,
+              selected=None, all_selected=None):
     """Save egraph visualizations as SVG.
 
     graph_json: serialized egraph dict (from serialize_egraph or loaded from JSON)
     output_path: base path for output files (without extension)
     eclass_costs: optional dict of {eclass_id: bytes_moved} from ILP extraction
-    selected: optional dict of {eclass_id: node_id} from ILP extraction
+    selected: optional dict of {eclass_id: node_id} — single optimal solution
+    all_selected: optional list of selected dicts — all optimal solutions.
+                  When provided with more than one solution, nodes are colored
+                  green (in all), yellow (in some), or grey (in none).
     """
     dot = _build_dot(graph_json)
     dot.render(output_path, format="svg", cleanup=True)
     print(f"Wrote {output_path}.svg")
 
     if eclass_costs:
+        effective_selected = selected if not all_selected else None
         dot_costs = _build_dot(graph_json, eclass_costs=eclass_costs,
-                               selected=selected)
+                               selected=effective_selected,
+                               all_selected=all_selected)
         cost_path = f"{output_path}-costs"
         dot_costs.render(cost_path, format="svg", cleanup=True)
         print(f"Wrote {cost_path}.svg")
