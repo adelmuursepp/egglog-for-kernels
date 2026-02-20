@@ -52,13 +52,28 @@ nodes = graph_json["nodes"]
 print(f"Optimal cost: {int(total_cost)} bytes")
 print()
 
+def live_eclasses(selected, root):
+    """Return the subset of selected that is reachable from root."""
+    visited = set()
+    stack = [root]
+    while stack:
+        ec = stack.pop()
+        if ec in visited or ec not in selected:
+            continue
+        visited.add(ec)
+        for child_nid in nodes[selected[ec]]["children"]:
+            stack.append(nodes[child_nid]["eclass"])
+    return {ec: selected[ec] for ec in visited}
+
 # Deduplicate: ILP may find solutions that differ only in dead (unreachable)
-# e-classes. Keep only structurally distinct root-reachable expressions.
+# e-classes. Filter each solution to live e-classes only, then deduplicate
+# by root-reachable expression so coloring reflects only meaningful selections.
 seen_exprs = {}
 for selected in all_solutions:
-    expr = format_extraction(graph_json, selected, root_ec)
+    live = live_eclasses(selected, root_ec)
+    expr = format_extraction(graph_json, live, root_ec)
     if expr not in seen_exprs:
-        seen_exprs[expr] = selected
+        seen_exprs[expr] = live
 unique_solutions = list(seen_exprs.values())
 
 print(f"{len(unique_solutions)} unique optimal structure(s) found"
@@ -76,13 +91,13 @@ for ec, nid in sorted(unique_solutions[0].items()):
         print(f"  {ec:30s}  {op:20s}  {c} bytes")
 print()
 
-# Build eclass_costs from solution 1 for annotation (costs are same across solutions)
-eclass_costs = {}
-for ec, nid in unique_solutions[0].items():
-    c = traffic_costs.get(nid, 0)
-    if c > 0:
-        eclass_costs[ec] = c
+# Build node_costs: {node_id: bytes} for every node selected in any solution.
+# Includes 0-cost nodes so the cost row shows up on all selected nodes.
+node_costs = {}
+for sol in unique_solutions:
+    for nid in sol.values():
+        node_costs[nid] = traffic_costs.get(nid, 0)
 
 print("Generating egraph visualizations")
 visualize(graph_json, output_path=os.path.join(OUTPUT_DIR, "egraph"),
-          eclass_costs=eclass_costs, all_selected=unique_solutions)
+          node_costs=node_costs, all_selected=unique_solutions)

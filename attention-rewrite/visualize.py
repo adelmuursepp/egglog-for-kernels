@@ -6,17 +6,17 @@ omitting analysis property nodes (.rows, .cols, .dtype_bytes, etc).
 
 Generates two diagrams:
   egraph.svg/pdf       - clean dataflow diagram
-  egraph-costs.svg/pdf - annotated with per-e-class transaction costs
+  egraph-costs.svg/pdf - annotated with per-node transaction costs
 """
 
 import graphviz
 
 
-def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
+def _build_dot(graph_json, node_costs=None, selected=None, all_selected=None):
     """Build a filtered graphviz Digraph showing only Tile operation nodes.
 
-    If eclass_costs is provided (dict of eclass -> bytes), annotates each
-    e-class with its transaction cost.
+    If node_costs is provided (dict of node_id -> bytes), annotates each
+    selected node with its transaction cost.
     If selected is provided (dict of eclass -> node_id from ILP), highlights
     the chosen nodes and dims the alternatives (single-solution mode).
     If all_selected is provided (list of selected dicts), uses three-color
@@ -55,8 +55,10 @@ def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
     dot.attr("node", shape="none", fontname="Helvetica", fontsize="10")
 
     # Add legend when showing costs
-    if eclass_costs:
-        total_bytes = sum(eclass_costs.values())
+    if node_costs:
+        # Total cost = sum over first solution's nodes (same across all optimal solutions)
+        ref_sol = all_selected[0] if all_selected else (selected or {})
+        total_bytes = sum(node_costs.get(nid, 0) for nid in ref_sol.values())
         total_kb = total_bytes / 1024
         with dot.subgraph(name="cluster_legend") as legend:
             legend.attr(style="rounded", color="#999999",
@@ -98,9 +100,6 @@ def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
             color = "#f5f5f5" if selected else "#e8e8e8"
 
         ec_label = ec.split("-")[-1]
-        if eclass_costs and ec in eclass_costs and eclass_costs[ec] > 0:
-            cost_kb = eclass_costs[ec] / 1024
-            ec_label += f"  ({cost_kb:,.0f} KB)"
 
         with dot.subgraph(name=f"cluster_{ec}") as sub:
             sub.attr(style="dashed,rounded,filled", fillcolor=color,
@@ -141,10 +140,21 @@ def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
                     border_color = "black"
                     font_color = "black"
 
+                # Cost row: shown only for nodes that appear in any solution
+                cost_row = ""
+                if node_costs and nid in node_costs:
+                    cost_bytes = node_costs[nid]
+                    cost_kb = cost_bytes / 1024
+                    cost_row = (
+                        f'<TR><TD><FONT COLOR="{font_color}" POINT-SIZE="8">'
+                        f'{cost_kb:,.0f} KB</FONT></TD></TR>'
+                    )
+
                 sub.node(nid, label=(
                     f'<<TABLE BGCOLOR="{bg}" BORDER="1" CELLBORDER="0" '
                     f'CELLPADDING="4" COLOR="{border_color}">'
                     f'<TR><TD><FONT COLOR="{font_color}">{label}</FONT></TD></TR>'
+                    f'{cost_row}'
                     f'</TABLE>>'
                 ))
 
@@ -158,13 +168,13 @@ def _build_dot(graph_json, eclass_costs=None, selected=None, all_selected=None):
     return dot
 
 
-def visualize(graph_json, output_path="egraph", eclass_costs=None,
+def visualize(graph_json, output_path="egraph", node_costs=None,
               selected=None, all_selected=None):
     """Save egraph visualizations as SVG.
 
     graph_json: serialized egraph dict (from serialize_egraph or loaded from JSON)
     output_path: base path for output files (without extension)
-    eclass_costs: optional dict of {eclass_id: bytes_moved} from ILP extraction
+    node_costs: optional dict of {node_id: bytes_moved} for all selected nodes
     selected: optional dict of {eclass_id: node_id} — single optimal solution
     all_selected: optional list of selected dicts — all optimal solutions.
                   When provided with more than one solution, nodes are colored
@@ -174,9 +184,9 @@ def visualize(graph_json, output_path="egraph", eclass_costs=None,
     dot.render(output_path, format="svg", cleanup=True)
     print(f"Wrote {output_path}.svg")
 
-    if eclass_costs:
+    if node_costs:
         effective_selected = selected if not all_selected else None
-        dot_costs = _build_dot(graph_json, eclass_costs=eclass_costs,
+        dot_costs = _build_dot(graph_json, node_costs=node_costs,
                                selected=effective_selected,
                                all_selected=all_selected)
         cost_path = f"{output_path}-costs"
