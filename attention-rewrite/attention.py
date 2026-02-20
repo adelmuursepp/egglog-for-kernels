@@ -249,10 +249,34 @@ def build_egraph(tiles, accum_dtype_bytes=4):
             set_cost(Tile.STG(a), r * c * d * al),
         )
 
-        # The key rewrite: move elementwise before matmul
+        # Rewrite 1: move elementwise before matmul
         # Elementwise(WGMMA(q, k)) => WGMMA(Elementwise(LDR(q)), k)
-        yield rewrite(Tile.Elementwise(Tile.WGMMA(a, b))).to(
-            Tile.WGMMA(Tile.Elementwise(Tile.LDR(a)), b)
+        # When a scale sits on top of a matmul, move it before (valid because scale
+        # is linear) and introduce an explicit LDR. Combined effect: Q is scaled
+        # once outside the loop and stays in registers for all iterations.
+        # Conditioned on a.mem_region == SHARED for the same reason as Rewrite 2:
+        # prevents firing when a is already in registers (e.g. LDR(Q)), which
+        # would create a LDR(LDR(Q)) term.
+        yield rule(
+            t == Tile.Elementwise(Tile.WGMMA(a, b)),
+            eq(a.mem_region).to(MemRegion.SHARED()),
+        ).then(
+            union(t).with_(Tile.WGMMA(Tile.Elementwise(Tile.LDR(a)), b))
+        )
+
+        # Rewrite 2: explicitly load left WGMMA operand to registers when in SMEM.
+        # WGMMA(a_smem, b) => WGMMA(LDR(a_smem), b)
+        # More primitive than Rewrite 1: fires on any WGMMA where a is in SMEM,
+        # independent of whether an elementwise op is present above it.
+        # The ILP chooses: pay for LDR once (bytes(a) * a.loop_iters) vs. let
+        # WGMMA reload a implicitly each iteration (bytes(a) * loop_iters_of_loop).
+        # Conditioned on a.mem_region == SHARED to prevent chaining: once a is
+        # in REGISTERS the rule no longer matches and saturation is reached.
+        yield rule(
+            t == Tile.WGMMA(a, b),
+            eq(a.mem_region).to(MemRegion.SHARED()),
+        ).then(
+            union(t).with_(Tile.WGMMA(Tile.LDR(a), b))
         )
 
     # Build tile inputs from the tiles dict
